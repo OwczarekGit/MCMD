@@ -18,7 +18,7 @@ namespace MCModDownloader
                 return;
             }
 
-            workingDirectory = args[0];
+            workingDirectory = args[0] + "/";
             
             client = new ForgeClient();
 

@@ -87,6 +87,7 @@ namespace MCModDownloader
             }
             
             Console.Clear();
+            Console.CursorVisible = true;
             Console.WriteLine("Bye!");
         }
 
