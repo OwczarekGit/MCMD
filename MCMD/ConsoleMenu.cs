@@ -130,6 +130,9 @@ namespace MCModDownloader
             }
 
             modList = newModList;
+
+            if (selection >= modList.Count)
+                selection = modList.Count - 1;
         }
 
         public void downloadSelected()
