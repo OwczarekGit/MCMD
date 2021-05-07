@@ -48,6 +48,7 @@ namespace MCModDownloader
             {
                 Console.CursorVisible = false;
                 var input = Console.ReadKey().Key;
+                
                 if (input == ConsoleKey.DownArrow || input == ConsoleKey.J)
                 {
                     selection = selection+1 > modList.Count-1 ? modList.Count-1 : selection+1;
@@ -58,7 +59,7 @@ namespace MCModDownloader
                     selection = selection-1 < 0 ? 0 : selection-1;
                 }
 
-                if (input == ConsoleKey.S || input == ConsoleKey.Divide)
+                if (input == ConsoleKey.F || input == ConsoleKey.Divide)
                 {
                     searchMods();
                 }
