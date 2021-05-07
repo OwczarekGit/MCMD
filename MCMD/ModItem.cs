@@ -56,5 +56,10 @@ namespace MCModDownloader
             isDownloaded = true;
             cmRef.drawMenu();
         }
+
+        public String getModUrl()
+        {
+            return Program.client.GetAddon(modID).Website;
+        }
     }
 }
