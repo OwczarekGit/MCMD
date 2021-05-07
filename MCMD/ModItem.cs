@@ -56,7 +56,7 @@ namespace MCModDownloader
 
             
             WebClient tmpClient = new WebClient();
-            tmpClient.DownloadFile(fileList.First().DownloadUrl, Program.workingDirectory + tmpMod.LatestFiles.Last().FileName);
+            tmpClient.DownloadFile(fileList.Last().DownloadUrl, Program.workingDirectory + tmpMod.LatestFiles.Last().FileName);
 
             isDownloaded = true;
             cmRef.drawMenu();
