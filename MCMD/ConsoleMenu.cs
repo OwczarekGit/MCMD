@@ -83,6 +83,15 @@ namespace MCModDownloader
                 {
                     running = false;
                 }
+
+                if (input == ConsoleKey.O)
+                {
+                    var tmp = modList[selection];
+                    var url = tmp.getModUrl();
+                    Console.Clear();
+                    Console.Write($"[{tmp.name}]: {url}");
+                    var x = Console.ReadKey().Key;
+                }
                 
                 drawMenu();
             }
