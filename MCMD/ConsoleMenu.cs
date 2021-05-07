@@ -24,7 +24,7 @@ namespace MCModDownloader
             Console.Write("Search:");
             var search = Console.ReadLine();
 
-            var results = Program.client.SearchAddons(search, "", 10, 0, AddonKind.Mod);
+            var results = Program.client.SearchAddons(search, Program.mcVersion, 20, 0, AddonKind.Mod);
             bool contains = false;
             foreach (var mod in results)
             {

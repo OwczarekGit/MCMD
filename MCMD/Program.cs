@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using ForgedCurse;
 using ForgedCurse.WrapperTypes;
 
@@ -9,6 +10,7 @@ namespace MCModDownloader
     {
         public static ForgeClient client;
         public static String workingDirectory = null;
+        public static String mcVersion = "1.16.5";
         
         static void Main(string[] args)
         {
@@ -19,6 +21,7 @@ namespace MCModDownloader
             }
 
             workingDirectory = args[0] + "/";
+            Console.WriteLine($"Targeting directory: {workingDirectory}");
             
             client = new ForgeClient();
 

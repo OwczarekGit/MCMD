@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using ForgedCurse;
+using ForgedCurse.WrapperTypes;
 
 namespace MCModDownloader
 {
@@ -49,9 +50,13 @@ namespace MCModDownloader
                 return;
             
             var tmpMod = Program.client.GetAddon(modID);
-            var fileToDownload = tmpMod.LatestFiles.Last().DownloadUrl;
+            var fileList = tmpMod.LatestFiles;
+
+            //TODO Download dependencies.
+
+            
             WebClient tmpClient = new WebClient();
-            tmpClient.DownloadFile(fileToDownload, Program.workingDirectory + tmpMod.LatestFiles.Last().FileName);
+            tmpClient.DownloadFile(fileList.First().DownloadUrl, Program.workingDirectory + tmpMod.LatestFiles.Last().FileName);
 
             isDownloaded = true;
             cmRef.drawMenu();
