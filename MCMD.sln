@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCModDownloader", "MCModDownloader\MCModDownloader.csproj", "{B99C1CD1-D83A-4AB5-894B-7FB0351D187A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCMD", "MCMD\MCMD.csproj", "{B99C1CD1-D83A-4AB5-894B-7FB0351D187A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
