@@ -110,11 +110,11 @@ namespace MCModDownloader
             {
                 if (i == selection)
                 {
-                    Console.WriteLine("> "+modList[i].getMod());
+                    Console.WriteLine(" > "+modList[i].getMod());
                 }
                 else
                 {
-                    Console.WriteLine("  "+modList[i].getMod());
+                    Console.WriteLine("   "+modList[i].getMod());
                 }
             }
         }
