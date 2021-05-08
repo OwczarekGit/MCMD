@@ -48,15 +48,25 @@ namespace MCModDownloader
         {
             if (isDownloaded)
                 return;
-            
+
             var tmpMod = Program.client.GetAddon(modID);
             var fileList = tmpMod.LatestFiles;
-
-            //TODO Download dependencies.
-
+            CurseJSON.AddonFile target = fileList.Last();
             
             WebClient tmpClient = new WebClient();
-            tmpClient.DownloadFile(fileList.Last().DownloadUrl, Program.workingDirectory + tmpMod.LatestFiles.Last().FileName);
+            
+            // Download the mod dependencies
+            foreach (var dependency in target.dependencies)
+            {
+                var tmpDep = Program.client.GetAddon(dependency.addonId);
+                var depList = tmpDep.LatestFiles;
+                CurseJSON.AddonFile depTarget = depList.Last(); 
+                tmpClient.DownloadFile(depTarget.downloadUrl, Program.workingDirectory + depTarget.fileName);
+            }
+
+            
+            // Download mod
+            tmpClient.DownloadFile(target.downloadUrl, Program.workingDirectory + target.fileName);
 
             isDownloaded = true;
             cmRef.drawMenu();
