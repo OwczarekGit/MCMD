@@ -58,14 +58,14 @@ namespace MCModDownloader
             // Download the mod dependencies
             foreach (var dependency in target.dependencies)
             {
+                if (dependency.type != 3) continue;
+                
                 var tmpDep = Program.client.GetAddon(dependency.addonId);
                 var depList = tmpDep.LatestFiles;
-                CurseJSON.AddonFile depTarget = depList.Last(); 
+                CurseJSON.AddonFile depTarget = depList.Last();
+                    
                 tmpClient.DownloadFile(depTarget.downloadUrl, Program.workingDirectory + depTarget.fileName);
             }
-
-            
-            // Download mod
             tmpClient.DownloadFile(target.downloadUrl, Program.workingDirectory + target.fileName);
 
             isDownloaded = true;
