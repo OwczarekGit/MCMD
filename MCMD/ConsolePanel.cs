@@ -81,7 +81,11 @@ namespace MCModDownloader
                 }
                 else
                 {
-                    if (tmpItem.isMarked)
+                    if (tmpItem.isDownloaded)
+                    { 
+                        Console.Write($" [✓] {composedString}");
+                    }
+                    else if (tmpItem.isMarked)
                     {
                         Console.Write($" [x] {composedString}");
                     }
@@ -127,7 +131,10 @@ namespace MCModDownloader
 
         public void toggleMark()
         {
-            listItem[selection].isMarked = !listItem[selection].isMarked;
+            if (!listItem[selection].isDownloaded)
+            {
+                listItem[selection].isMarked = !listItem[selection].isMarked;
+            }
         }
     }
 }

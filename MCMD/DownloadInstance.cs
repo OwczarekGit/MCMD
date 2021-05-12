@@ -40,7 +40,7 @@ namespace MCModDownloader
             client = new WebClient();
             client.DownloadProgressChanged += updateDownloadProgress;
             client.DownloadFileCompleted += downloadFinished;
-            client.DownloadFile(url, fileName);
+            client.DownloadFileAsync(url, Program.workingDirectory + fileName);
         }
 
         private void updateDownloadProgress(object sender, DownloadProgressChangedEventArgs e)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using ForgedCurse;
 using ForgedCurse.Enumeration;
@@ -11,7 +12,8 @@ namespace MCModDownloader
     class Program
     {
         public static ForgeClient client;
-        public static String workingDirectory = null;
+        //public static String workingDirectory = null;
+        public static String workingDirectory = "/home/czarek/McMODS/";
         public static String mcVersion = "1.16.5";
         public static String modLoader = "forge";
         public static Vec2 screenSize = new Vec2(0, 0);
@@ -43,7 +45,7 @@ namespace MCModDownloader
             client = new ForgeClient();
                 
             
-            var search = client.SearchAddons("ref", "1.16.5", 40, 0, AddonKind.Mod);
+            var search = client.SearchAddons("in", "1.16.5", 40, 0, AddonKind.Mod);
 
             foreach (var addon in search)
             {
@@ -90,6 +92,23 @@ namespace MCModDownloader
                 
                 if (input == ConsoleKey.UpArrow)
                     panel.position.y--;
+
+                if (input == ConsoleKey.B)
+                {
+                    List<Thread> downloadThreads = new List<Thread>();
+                    foreach (var mod in panel.listItem)
+                    {
+                        if (mod.isMarked)
+                        {
+                            downloadThreads.Add(new Thread(mod.downloadMod));
+                        }
+                    }
+
+                    foreach (var thread in downloadThreads)
+                    {
+                        thread.Start();
+                    }
+                }
                 
             }
         }

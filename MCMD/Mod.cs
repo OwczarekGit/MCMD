@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using ForgedCurse;
 using ForgedCurse.Enumeration;
 using ForgedCurse.WrapperTypes;
@@ -14,7 +15,7 @@ namespace MCModDownloader
         public bool isMarked = false;
         public Addon addon;
         public CurseJSON.AddonFile addonFile;
-        public String sname = "";
+        private bool fileIsReady = false;
         public bool loaderTypeForge { private set; get; } = true;
 
         public Mod(Addon addon)
@@ -25,13 +26,19 @@ namespace MCModDownloader
         
         public String getModURL(){ return addon.Website; }
 
-        public DownloadInstance getDownloadInstance()
+        public void downloadMod()
         {
-            downloadInstance = new DownloadInstance(addon.Website, sname, this);
-            return downloadInstance;
+            getAddonFile();
+            getDownloadInstance();
+            downloadInstance.startDownload();
         }
 
-        public void getAddonFile()
+        private void getDownloadInstance()
+        {
+            downloadInstance = new DownloadInstance(addonFile.downloadUrl, addonFile.fileName, this);
+        }
+
+        private void getAddonFile()
         {
             List<CurseJSON.AddonFile> candidates = new List<CurseJSON.AddonFile>();
             foreach (var file in addon.Files)
@@ -56,8 +63,7 @@ namespace MCModDownloader
             }
 
             var targetFile = getNewestFile(candidates);
-            Console.WriteLine($"{targetFile.id}, {targetFile.projectId}, {targetFile.fileDate}, {targetFile.fileName}, {targetFile.releaseType}");
-            
+            addonFile = targetFile;
         }
 
         private CurseJSON.AddonFile getNewestFile(List<CurseJSON.AddonFile> candidates)
