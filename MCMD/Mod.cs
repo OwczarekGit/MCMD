@@ -10,17 +10,19 @@ namespace MCModDownloader
 {
     public class Mod 
     {
-        private DownloadInstance downloadInstance;
+        private DownloadInstance downloadInstance = null;
         public bool isDownloaded = false;
         public bool isMarked = false;
         public Addon addon;
         public CurseJSON.AddonFile addonFile;
         private bool fileIsReady = false;
+        public String displayName = "";
         public bool loaderTypeForge { private set; get; } = true;
 
         public Mod(Addon addon)
         {
             this.addon = addon;
+            displayName = addon.Name;
             isForgeMod();
         }
         
@@ -30,12 +32,34 @@ namespace MCModDownloader
         {
             getAddonFile();
             getDownloadInstance();
+            
+            foreach (var dependency in addonFile.dependencies)
+            {
+                if (dependency.type == 3)
+                {
+                    Mod dep = new Mod(Program.client.GetAddon(dependency.addonId));
+                    dep.downloadMod();
+                }
+            }
+            
             downloadInstance.startDownload();
         }
 
         private void getDownloadInstance()
         {
-            downloadInstance = new DownloadInstance(addonFile.downloadUrl, addonFile.fileName, this);
+            downloadInstance = new DownloadInstance(addonFile, this);
+        }
+        
+        public void updateDisplayName()
+        {
+            if (downloadInstance != null && !isDownloaded)
+            {
+                displayName = $"({downloadInstance.downloadProgress}%) {addon.Name}";
+            }
+            else
+            {
+                displayName = addon.Name;
+            }
         }
 
         private void getAddonFile()

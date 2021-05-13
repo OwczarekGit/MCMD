@@ -41,7 +41,7 @@ namespace MCModDownloader
 
             Console.CursorVisible = false;
 
-            ConsolePanel panel = new ConsolePanel(new Vec2(1, 1),new Vec2(40, 10));
+            ConsolePanel panel = new ConsolePanel(new Vec2(1, 1),new Vec2(40, 20));
             client = new ForgeClient();
                 
             

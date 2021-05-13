@@ -55,7 +55,7 @@ namespace MCModDownloader
 
                 Console.SetCursorPosition(position.x, position.y+1 + i);
 
-                String tmpString = tmpItem.addon.Name;
+                String tmpString = tmpItem.displayName;
                 String composedString = "";
                 bool wasTooLong = false;
                 

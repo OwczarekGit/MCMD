@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Net;
 using System.Threading;
+using ForgedCurse;
 
 namespace MCModDownloader
 {
@@ -15,10 +16,10 @@ namespace MCModDownloader
         private WebClient client;
         private Mod modRef; 
 
-        public DownloadInstance(String url, String fileName, Mod modRef)
+        public DownloadInstance(CurseJSON.AddonFile targetFile, Mod modRef)
         {
-            this.fileName = fileName;
-            this.url = new Uri(url);
+            this.fileName = targetFile.fileName;
+            this.url = new Uri(targetFile.downloadUrl);
             this.modRef = modRef;
             downloadProgress = 0;
             downloadThread = new Thread(beginDownload);
@@ -43,8 +44,10 @@ namespace MCModDownloader
             client.DownloadFileAsync(url, Program.workingDirectory + fileName);
         }
 
+
         private void updateDownloadProgress(object sender, DownloadProgressChangedEventArgs e)
         {
+            modRef.updateDisplayName();
             downloadProgress = (byte)e.ProgressPercentage;
         }
 
@@ -58,6 +61,7 @@ namespace MCModDownloader
 
             modRef.isDownloaded = true;
             downloadWasSuccess = true;
+            modRef.displayName = modRef.addon.Name;
         }
         
     }
