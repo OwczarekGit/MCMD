@@ -52,13 +52,26 @@ namespace MCModDownloader
         
         public void updateDisplayName()
         {
+            String prefix = "   ";
+
+            if (isMarked)
+            {
+                prefix = "[x]";
+                
+                if (isDownloaded)
+                {
+                    prefix = "[D]";
+                }
+            }
+            
+            
             if (downloadInstance != null && !isDownloaded)
             {
-                displayName = $"({downloadInstance.downloadProgress}%) {addon.Name}";
+                displayName = $"  {prefix} ({downloadInstance.downloadProgress}%) {addon.Name}";
             }
             else
             {
-                displayName = addon.Name;
+                displayName = $"  {prefix} {addon.Name}";
             }
         }
 

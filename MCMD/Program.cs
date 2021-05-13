@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using ForgedCurse;
@@ -10,7 +12,8 @@ using ForgedCurse.WrapperTypes;
 namespace MCModDownloader
 {
     class Program
-    {
+    { 
+        public static readonly String ReleaseVersion = $"MCMD Release: {DateTime.Now.ToString("ddMMyy")}.{DateTime.Now.Second}";
         public static ForgeClient client;
         //public static String workingDirectory = null;
         public static String workingDirectory = "/home/czarek/McMODS/";
@@ -64,6 +67,14 @@ namespace MCModDownloader
             }
 
             //Console.ReadKey();
+
+            Display a = new Display();
+            a.start();
+            while (true)
+            {
+                a.draw();
+                Thread.Sleep(100);
+            }
 
             
             while (true)

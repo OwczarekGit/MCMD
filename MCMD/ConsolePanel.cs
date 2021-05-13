@@ -13,12 +13,12 @@ namespace MCModDownloader
             public static ConsoleColor normal = ConsoleColor.White;
         }
         
-        public Vec2 size { private set; get; }
+        public Vec2 size { set; get; }
         public Vec2 position { set; get; }
         public List<Mod> listItem { private set; get; }
         public int offset { private set; get; } = 0;
         public int selection { private set; get; } = 0;
-        public String barText = "=====";
+        public String barText = $"Panel";
 
         public ConsolePanel(Vec2 position, Vec2 size)
         {
@@ -29,15 +29,25 @@ namespace MCModDownloader
 
         public void draw()
         {
+            String titleBarText = barText;
+            for (int j = 0; j < size.x-barText.Length; j++)
+            {
+                titleBarText += "=";
+            }
+            
             int i = 0;
 
             Console.ForegroundColor = ModStatus.normal;
             Console.SetCursorPosition(position.x, position.y);
-            Console.Write($"[Item: ({selection+1}/{listItem.Count})] | S: {selection}, O: {offset}");
+            Console.Write($"{titleBarText}");
             Mod tmpItem = null;
             
             while (offset+i+selection < offset+selection+size.y-1)
             {
+                if (offset+i > listItem.Count-1)
+                    break;
+                    
+                
                 tmpItem = listItem[offset+i];
                 
                 if (tmpItem.isDownloaded)
@@ -55,6 +65,7 @@ namespace MCModDownloader
 
                 Console.SetCursorPosition(position.x, position.y+1 + i);
 
+                tmpItem.updateDisplayName();
                 String tmpString = tmpItem.displayName;
                 String composedString = "";
                 bool wasTooLong = false;
@@ -77,22 +88,11 @@ namespace MCModDownloader
                 
                 if (selection == i+offset)
                 {
-                    Console.Write($"  →  {composedString}");
+                    Console.Write($" >{composedString}");
                 }
                 else
                 {
-                    if (tmpItem.isDownloaded)
-                    { 
-                        Console.Write($" [✓] {composedString}");
-                    }
-                    else if (tmpItem.isMarked)
-                    {
-                        Console.Write($" [x] {composedString}");
-                    }
-                    else
-                    {
-                        Console.Write($"     {composedString}");
-                    }
+                    Console.Write($"  {composedString}");
                 }
                 // ⭳ ✓
                 i++;
