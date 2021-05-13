@@ -46,10 +46,10 @@ namespace MCModDownloader
         private void updatePanelSize()
         {
             buffer.position = new Vec2(1, 0);
-            buffer.size = new Vec2(size.x/2-2, size.y);
+            buffer.size = new Vec2(size.x/2-2, size.y-1);
             
             added.position = new Vec2(size.x/2+1, 0);
-            added.size = new Vec2(size.x/2-2, size.y);
+            added.size = new Vec2(size.x/2-2, size.y-1);
         }
 
         private void updateFooter()
