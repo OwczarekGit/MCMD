@@ -1,5 +1,5 @@
-# MCMD
-## A cli app for downloading Minecraft mods from curseforge.
+# The "MineCraft Mod Downloader" (MCMD)
+## A CLI app for downloading Minecraft mods from curseforge.
 
 #### If you're on Windows consider using alternative Terminal program, i would recommend [Alacritty](https://github.com/alacritty/alacritty) or [Windows Terminal](https://www.microsoft.com/pl-pl/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab), as both CMD and PowerShell have issues with the ammount of redraws that are happening in MCMD.
 
@@ -24,3 +24,5 @@
 - [x] Dual panel setup with exclusive mod placement. 
 - [ ] Searching specified directory for existing mods and provide an easy way of updating them.
 - [ ] Easy forge/fabric mod loader download and installation.
+
+### Keep in mind that MCMD is at the early stage of development, any help highly appreciated. Thanks!
