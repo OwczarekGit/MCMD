@@ -73,6 +73,7 @@ namespace MCModDownloader
             while (true)
             {
                 a.draw();
+                a.processInput();
                 Thread.Sleep(100);
             }
 

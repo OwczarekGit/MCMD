@@ -10,5 +10,13 @@ namespace MCModDownloader
             x = w;
             y = h;
         }
+
+        public bool isChanged(Vec2 other)
+        {
+            if (x == other.x && y == other.y)
+                return false;
+
+            return true;
+        }
     }
 }

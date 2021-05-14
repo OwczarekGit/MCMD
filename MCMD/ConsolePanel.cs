@@ -19,6 +19,7 @@ namespace MCModDownloader
         public int offset { private set; get; } = 0;
         public int selection { private set; get; } = 0;
         public String barText = $"Panel";
+        public bool isFocused = false;
 
         public ConsolePanel(Vec2 position, Vec2 size)
         {
@@ -29,11 +30,19 @@ namespace MCModDownloader
 
         public void draw()
         {
-            String titleBarText = barText;
-            for (int j = 0; j < size.x-barText.Length; j++)
+            String titleBarText = "[" + barText;
+            for (int j = 0; j < size.x-barText.Length-1; j++)
             {
-                titleBarText += "=";
+                if (j == size.x-barText.Length-2)
+                {
+                    titleBarText += "]";
+                }
+                else
+                {
+                    titleBarText += " ";
+                }
             }
+
             
             int i = 0;
 
@@ -86,7 +95,7 @@ namespace MCModDownloader
                     composedString += '…';
                 
                 
-                if (selection == i+offset)
+                if (selection == i+offset && isFocused)
                 {
                     Console.Write($" >{composedString}");
                 }
