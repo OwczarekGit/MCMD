@@ -60,7 +60,7 @@ namespace MCModDownloader
                 
                 if (isDownloaded)
                 {
-                    prefix = "[D]";
+                    prefix = "[↓]";
                 }
             }
             

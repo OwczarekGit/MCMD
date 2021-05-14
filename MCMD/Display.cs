@@ -233,8 +233,17 @@ namespace MCModDownloader
                     }
                 }
 
-                draw();
+                if (input.Key == ConsoleKey.Q && (input.Modifiers & ConsoleModifiers.Control) != 0)
+                {
+                    running = false;
+                    Console.CursorVisible = true;
+                    Console.Clear();
+                    System.Environment.Exit(0);
+                }
+                    
+
                 focusedPanel.barText = $"Position: ({focusedPanel.selection+1}/{focusedPanel.listItem.Count})";
+                draw();
             }
             
             draw();

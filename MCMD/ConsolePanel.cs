@@ -97,7 +97,7 @@ namespace MCModDownloader
                 
                 if (selection == i+offset && isFocused)
                 {
-                    Console.Write($" >{composedString}");
+                    Console.Write($" →{composedString}");
                 }
                 else
                 {
