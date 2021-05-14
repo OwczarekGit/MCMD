@@ -145,5 +145,11 @@ namespace MCModDownloader
                 listItem[selection].isMarked = !listItem[selection].isMarked;
             }
         }
+
+        public void selectMax()
+        {
+            if (selection > listItem.Count-1)
+                selection = listItem.Count - 1;
+        }
     }
 }

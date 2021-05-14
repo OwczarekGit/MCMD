@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using ForgedCurse.Enumeration;
 
@@ -107,6 +109,14 @@ namespace MCModDownloader
             added.isFocused = true;
         }
 
+        private void togglePanelFocus()
+        {
+            if (focusedPanel == buffer)
+                focusAdded();
+            else
+                focusBuffer();
+        }
+
         private ConsoleKeyInfo getInput()
         {
             return Console.ReadKey(true);
@@ -114,6 +124,7 @@ namespace MCModDownloader
 
         public void processInput()
         {
+            draw();
             switch (currentState)
             {
                 case AppStates.Browse:
@@ -129,10 +140,12 @@ namespace MCModDownloader
 
         private void searchModeInput()
         {
-            bool typing = true;
-            
-            while (typing)
+            draw();
+            searchBuffer = "";
+            buffer.barText = $"Search ({searchBuffer.Length})> {searchBuffer}";
+            while (currentState == AppStates.Search)
             { 
+                buffer.barText = $"Search ({searchBuffer.Length})> {searchBuffer}";
                 var input = getInput();
                 
                 if (input.Key == ConsoleKey.Backspace && searchBuffer.Length > 0)
@@ -146,16 +159,15 @@ namespace MCModDownloader
                 else if (input.Key == ConsoleKey.Enter && searchBuffer.Length > 0)
                 {
                     performModSearch(searchBuffer);
-                    typing = false;
                     focusBuffer();
                     currentState = AppStates.Browse;
                 }
                 else
                 {
                     searchBuffer += input.KeyChar; 
-                    buffer.barText = $"Search ({searchBuffer.Length})> {searchBuffer}";
                 }
 
+                buffer.barText = $"Search ({searchBuffer.Length})> {searchBuffer}";
                 draw();
             }
             
@@ -164,8 +176,10 @@ namespace MCModDownloader
 
         private void browseModeInput()
         {
+            draw();
             while (currentState == AppStates.Browse)
-            {
+            { 
+                focusedPanel.barText = $"Position: ({focusedPanel.selection+1}/{focusedPanel.listItem.Count})";
                 var input = getInput();
 
                 if (input.Key == ConsoleKey.J || input.Key == ConsoleKey.DownArrow)
@@ -173,8 +187,25 @@ namespace MCModDownloader
 
                 if (input.Key == ConsoleKey.K || input.Key == ConsoleKey.UpArrow)
                     focusedPanel.decreseSelection();
+
+                if (input.Key == ConsoleKey.Spacebar)
+                    focusedPanel.toggleMark();
+                
+                if(input.Key == ConsoleKey.Tab)
+                    togglePanelFocus();
+
+                if (input.Key == ConsoleKey.F)
+                { 
+                    currentState = AppStates.Search;
+                    moveBuffer();
+                    moveAdded();
+                }
+
+                if (input.Key == ConsoleKey.C) 
+                    clearPanel(focusedPanel);
                 
                 draw();
+                focusedPanel.barText = $"Position: ({focusedPanel.selection+1}/{focusedPanel.listItem.Count})";
             }
             
             draw();
@@ -183,23 +214,96 @@ namespace MCModDownloader
         private void performModSearch(String name)
         {
             var searchResult = Program.client.SearchAddons(name, Program.mcVersion, 40, 0, AddonKind.Mod);
-
             foreach (var mod in searchResult)
             {
                 Mod tmp = new Mod(mod);
 
                 if (Program.modLoader == "forge" && tmp.loaderTypeForge)
                 {
-                    buffer.listItem.Add(tmp);
+                    exclusiveAdd(tmp, buffer);
                 }
                 else
                 {
-                    buffer.listItem.Add(tmp);
+                    exclusiveAdd(tmp, buffer);
                 }
             }
 
-            buffer.barText = $"Results ({buffer.selection+1}/{buffer.listItem.Count}): {name}";
+            buffer.barText = $"Results ({buffer.selection+1+buffer.selection}/{buffer.listItem.Count}): {name}";
             draw();
+        }
+
+        private void exclusiveAdd(Mod mod, ConsolePanel panel)
+        {
+            bool exists = false;
+            
+            foreach (var item in panel.listItem)
+            {
+                if (item.addon.Name == mod.addon.Name)
+                    exists = true;
+            }
+
+            if (!exists)
+                panel.listItem.Add(mod);
+        }
+
+        private void moveBuffer()
+        {
+            List<Mod> removeList = new List<Mod>();
+            
+            foreach (var mod in buffer.listItem)
+            {
+                if (mod.isMarked)
+                {
+                    exclusiveAdd(mod, added);
+                    removeList.Add(mod);
+                }
+            }
+
+            foreach (var mod in removeList)
+            {
+                buffer.listItem.Remove(mod);
+            }
+            
+            buffer.selectMax();
+        }
+
+        private void moveAdded()
+        {
+            List<Mod> removeList = new List<Mod>();
+
+            foreach (var mod in added.listItem)
+            {
+                if (!mod.isMarked)
+                {
+                    exclusiveAdd(mod, buffer);
+                    removeList.Add(mod);
+                }
+            }
+
+            foreach (var mod in removeList)
+            {
+                added.listItem.Remove(mod);
+            }
+            
+            added.selectMax();
+        }
+
+        private void clearPanel(ConsolePanel panel)
+        { 
+            List<Mod> removeList = new List<Mod>();
+
+            foreach (var mod in panel.listItem)
+            {
+                if (!mod.isMarked || mod.isDownloaded)
+                    removeList.Add(mod);
+            }
+
+            foreach (var mod in removeList)
+            {
+                panel.listItem.Remove(mod);
+            }
+
+            panel.selectMax();
         }
     }
 }
