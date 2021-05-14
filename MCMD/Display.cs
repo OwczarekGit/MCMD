@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading;
 using ForgedCurse.Enumeration;
 
@@ -68,8 +71,9 @@ namespace MCModDownloader
 
         private void updateFooter()
         {
-            String tmp = $" =[{Program.ReleaseVersion}]";
-            for (int i = 0; i < size.x-Program.ReleaseVersion.Length-5; i++)
+            String footerText = $" =[{Program.ReleaseVersion}]=[{Program.mcVersion}/{Program.modLoader}]";
+            String tmp = footerText;
+            for (int i = 0; i < size.x-footerText.Length-1; i++)
                 tmp += "=";
 
             footer = tmp;
@@ -78,6 +82,7 @@ namespace MCModDownloader
         private void drawFooter()
         {
             Console.SetCursorPosition(0,size.y);
+            Console.ForegroundColor = ConsoleColor.White;
             Console.Write(footer);
         }
 
@@ -140,9 +145,10 @@ namespace MCModDownloader
 
         private void searchModeInput()
         {
-            draw();
-            searchBuffer = "";
             buffer.barText = $"Search ({searchBuffer.Length})> {searchBuffer}";
+            searchBuffer = "";
+            draw();
+            
             while (currentState == AppStates.Search)
             { 
                 buffer.barText = $"Search ({searchBuffer.Length})> {searchBuffer}";
@@ -176,7 +182,9 @@ namespace MCModDownloader
 
         private void browseModeInput()
         {
+            focusedPanel.barText = $"Position: ({focusedPanel.selection+1}/{focusedPanel.listItem.Count})";
             draw();
+            
             while (currentState == AppStates.Browse)
             { 
                 focusedPanel.barText = $"Position: ({focusedPanel.selection+1}/{focusedPanel.listItem.Count})";
@@ -199,11 +207,32 @@ namespace MCModDownloader
                     currentState = AppStates.Search;
                     moveBuffer();
                     moveAdded();
+                    focusBuffer();
                 }
 
                 if (input.Key == ConsoleKey.C) 
                     clearPanel(focusedPanel);
-                
+
+                if (focusedPanel == added && input.Key == ConsoleKey.D)
+                    downloadMods();
+
+                if (input.Key == ConsoleKey.O)
+                {
+                    String url = focusedPanel.getSelectedURL();
+                    
+                    if (url != null)
+                    {
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                            Process.Start("explorer", url);
+                        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                            Process.Start("xdg-open", url);
+                        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                            Process.Start("open", url);
+                        
+                        draw();
+                    }
+                }
+
                 draw();
                 focusedPanel.barText = $"Position: ({focusedPanel.selection+1}/{focusedPanel.listItem.Count})";
             }
@@ -220,11 +249,13 @@ namespace MCModDownloader
 
                 if (Program.modLoader == "forge" && tmp.loaderTypeForge)
                 {
-                    exclusiveAdd(tmp, buffer);
+                    if (!containsMod(tmp, added)) 
+                        exclusiveAdd(tmp, buffer);
                 }
-                else
+                else if (Program.modLoader == "fabric" && !tmp.loaderTypeForge)
                 {
-                    exclusiveAdd(tmp, buffer);
+                    if (!containsMod(tmp, added)) 
+                        exclusiveAdd(tmp, buffer);
                 }
             }
 
@@ -238,12 +269,21 @@ namespace MCModDownloader
             
             foreach (var item in panel.listItem)
             {
-                if (item.addon.Name == mod.addon.Name)
+                if (item.addon.Name == mod.addon.Name) 
                     exists = true;
             }
 
             if (!exists)
                 panel.listItem.Add(mod);
+        }
+
+        private bool containsMod(Mod mod, ConsolePanel panel)
+        {
+            foreach (var tmpMod in panel.listItem)
+                if (tmpMod.addon.Name == mod.addon.Name)
+                    return true;
+
+            return false;
         }
 
         private void moveBuffer()
@@ -304,6 +344,42 @@ namespace MCModDownloader
             }
 
             panel.selectMax();
+        }
+
+        private void downloadMods()
+        {
+            List<Thread> downloadThreads = new List<Thread>();
+                
+            foreach (var mod in added.listItem)
+            {
+                if (!mod.isDownloaded && mod.isMarked)
+                    downloadThreads.Add(new Thread(mod.downloadMod));
+            }
+
+            foreach (var thread in downloadThreads)
+            {
+                thread.Start(); 
+            }
+
+            bool downloading = true;
+            while (downloading)
+            {
+                int downloaded = 0;
+                downloading = false;
+                
+                foreach (var mod in added.listItem)
+                {
+                    if (!mod.isDownloaded)
+                        downloading = true;
+                    else
+                        downloaded++;
+                }
+                
+                Thread.Sleep(100);
+                added.barText = $"Downloading... ({downloaded}/{added.listItem.Count})";
+                draw();
+            }
+            added.barText = $"Finished download of: {added.listItem.Count} mods.";
         }
     }
 }

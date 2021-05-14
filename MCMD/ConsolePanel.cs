@@ -140,9 +140,15 @@ namespace MCModDownloader
 
         public void toggleMark()
         {
-            if (!listItem[selection].isDownloaded)
+            try
             {
-                listItem[selection].isMarked = !listItem[selection].isMarked;
+                if (!listItem[selection].isDownloaded)
+                {
+                    listItem[selection].isMarked = !listItem[selection].isMarked;
+                }
+            }
+            catch (Exception e)
+            {
             }
         }
 
@@ -150,6 +156,14 @@ namespace MCModDownloader
         {
             if (selection > listItem.Count-1)
                 selection = listItem.Count - 1;
+        }
+
+        public String getSelectedURL()
+        {
+            if (listItem[selection] != null)
+                return listItem[selection].getModURL();
+            else
+                return null;
         }
     }
 }
