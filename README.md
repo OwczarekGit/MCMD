@@ -3,6 +3,10 @@
 
 #### If you're on Windows consider using alternative Terminal program, i would recommend [Alacritty](https://github.com/alacritty/alacritty) or [Windows Terminal](https://www.microsoft.com/pl-pl/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab), as both CMD and PowerShell have issues with the ammount of redraws that are happening in MCMD.
 
+
+# For app to run you need to install [.NET 5.0](https://dotnet.microsoft.com/download)
+
+
 ![Screenshot from 2021-05-14 20-28-50](https://user-images.githubusercontent.com/32412218/118313465-0c384900-b4f3-11eb-85cc-4e5a12ff3ff3.png)
 
 ## Shortcuts
