@@ -1,7 +1,7 @@
 # The "MineCraft Mod Downloader" (MCMD)
 ## A CLI app for downloading Minecraft mods from curseforge.
 
-#### If you're on Windows consider using alternative Terminal program, i would recommend [Alacritty](https://github.com/alacritty/alacritty) or [Windows Terminal](https://www.microsoft.com/pl-pl/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab), as both CMD and PowerShell have issues with the ammount of redraws that are happening in MCMD.
+#### If you're on Windows consider using alternative Terminal program, i would recommend [Alacritty](https://github.com/alacritty/alacritty) or [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?source=lp&activetab=pivot:overviewtab), as both CMD and PowerShell have issues with the ammount of redraws that are happening in MCMD.
 
 
 # For app to run you need to install [.NET 5.0](https://dotnet.microsoft.com/download)
