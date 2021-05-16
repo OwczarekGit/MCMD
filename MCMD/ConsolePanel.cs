@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace MCModDownloader
 {
@@ -60,9 +61,13 @@ namespace MCModDownloader
                 
                 tmpItem = listItem[offset+i];
                 
-                if (tmpItem.isDownloaded)
+                if (tmpItem.isDownloaded && !tmpItem.hasUpdateAvailable)
                 {
                     Console.ForegroundColor = ModStatus.downloaded;
+                }
+                else if (tmpItem.hasUpdateAvailable && tmpItem.isDownloaded)
+                {
+                    Console.ForegroundColor = ModStatus.update;
                 }
                 else if (tmpItem.isMarked)
                 {
@@ -165,6 +170,20 @@ namespace MCModDownloader
                 return listItem[selection].getModURL();
             else
                 return null;
+        }
+
+        public void checkForUpdates()
+        {
+            List<Thread> checkerThreads = new List<Thread>();
+
+            foreach (var mod in listItem) 
+                checkerThreads.Add(new Thread(mod.checkForUpdate));
+
+            foreach (var thread in checkerThreads)
+                thread.Start();
+
+            foreach (var thread in checkerThreads)
+                thread.Join();
         }
     }
 }
