@@ -13,6 +13,7 @@ namespace MCModDownloader
         private DownloadInstance downloadInstance = null;
         public bool isDownloaded = false;
         public bool isMarked = false;
+        public bool hasUpdateAvailable = false;
         public Addon addon;
         public CurseJSON.AddonFile addonFile;
         private bool fileIsReady = false;
@@ -62,6 +63,11 @@ namespace MCModDownloader
                 {
                     prefix = "[↓]";
                 }
+            }
+
+            if (hasUpdateAvailable)
+            {
+                prefix = "[↑]";
             }
             
             

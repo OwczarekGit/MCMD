@@ -10,6 +10,7 @@ namespace MCModDownloader
             public static ConsoleColor downloaded = ConsoleColor.Green;
             public static ConsoleColor marked = ConsoleColor.Yellow;
             public static ConsoleColor error = ConsoleColor.Red;
+            public static ConsoleColor update = ConsoleColor.Cyan;
             public static ConsoleColor normal = ConsoleColor.White;
         }
         
