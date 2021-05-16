@@ -28,14 +28,14 @@ namespace MCModDownloader
         {
             Console.Write($"{question}(Y/N): ");
             var answer = Console.ReadKey();
+            Console.WriteLine();
             
             while (answer.Key != ConsoleKey.N && answer.Key != ConsoleKey.Y)
             {
                 Console.Write($"{question}(Y/N): ");
-                answer = Console.ReadKey();
+                answer = Console.ReadKey(); 
+                Console.WriteLine();
             }
-
-            Console.WriteLine("\n");
 
             if (answer.KeyChar.ToString().ToLower() == "y")
                 return true;
