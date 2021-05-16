@@ -26,8 +26,8 @@ namespace MCModDownloader
 
         public Display()
         {
-            buffer = new ConsolePanel(null, null);
-            added = new ConsolePanel(null, null);
+            buffer = new ConsolePanel(new Vec2(1,1), new Vec2(1,1));
+            added = new ConsolePanel(new Vec2(1,1), new Vec2(1,1));
             getModsFromExistingFiles();
             focusBuffer();
             
