@@ -50,5 +50,18 @@ namespace MCModDownloader
             
             return true;
         }
+
+        public static bool setCursor(int x, int y)
+        {
+            try
+            {
+                Console.SetCursorPosition(x,y);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
     }
 }

@@ -49,7 +49,7 @@ namespace MCModDownloader
             int i = 0;
 
             Console.ForegroundColor = ModStatus.normal;
-            Console.SetCursorPosition(position.x, position.y);
+            Helpers.setCursor(position.x, position.y);
             Console.Write($"{titleBarText}");
             Mod tmpItem = null;
             
@@ -78,7 +78,7 @@ namespace MCModDownloader
                     Console.ForegroundColor = ModStatus.normal;
                 }
 
-                Console.SetCursorPosition(position.x, position.y+1 + i);
+                Helpers.setCursor(position.x, position.y+1 + i);
 
                 tmpItem.updateDisplayName();
                 String tmpString = tmpItem.displayName;

@@ -104,7 +104,7 @@ namespace MCModDownloader
 
         private void drawFooter()
         {
-            Console.SetCursorPosition(0,size.y);
+            Helpers.setCursor(0,size.y-1);
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write(footer);
         }
