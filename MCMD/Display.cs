@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
+using ForgedCurse;
 using ForgedCurse.Enumeration;
+using ForgedCurse.WrapperTypes;
 
 namespace MCModDownloader
 {
@@ -25,6 +28,7 @@ namespace MCModDownloader
         {
             buffer = new ConsolePanel(null, null);
             added = new ConsolePanel(null, null);
+            getModsFromExistingFiles();
             focusBuffer();
             
             updateSize();
@@ -38,6 +42,25 @@ namespace MCModDownloader
             
             sizeUpdater.Start();
             running = true;
+        }
+
+        private void getModsFromExistingFiles()
+        {
+            var files = Directory.GetFiles(Program.workingDirectory,"*.jar");
+            Console.WriteLine($"Found {files.Length} existing mods. Working on them...");
+
+            foreach (var file in files)
+            {
+                Addon addon = Program.client.GetAddonFromFile($"{file}");
+
+                if (addon != null)
+                {
+                    var localMod = new Mod(addon);
+                    localMod.isDownloaded = true;
+                    localMod.isMarked = true;
+                    added.listItem.Add(localMod);
+                }
+            }
         }
 
         public void updateSize()
