@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -8,6 +9,7 @@ using System.Threading;
 using ForgedCurse;
 using ForgedCurse.Enumeration;
 using ForgedCurse.WrapperTypes;
+using Microsoft.VisualBasic;
 
 namespace MCModDownloader
 {
@@ -28,7 +30,36 @@ namespace MCModDownloader
             }
 
             workingDirectory = args[0] + "/";
+
+            if (!Helpers.directoryExists(workingDirectory))
+            {
+                var shouldCreate = Helpers.getConfirmation($"Directory: '{workingDirectory}' doesn't exist, should it be created?");
+
+                if (shouldCreate)
+                {
+                    var result = Helpers.createDirectory(workingDirectory);
+
+                    if (!result)
+                    {
+                        Console.WriteLine($"Failed to create directory: {workingDirectory} exiting!");
+                        Environment.Exit(-1);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Canceling.");
+                    Environment.Exit(0);
+                }
+            }
+
+            if (!Helpers.isDirectoryEmpty(workingDirectory))
+            {
+                // TODO check if files are mod files and if so add set environment to work with them.
+                Console.WriteLine("Directory contains files!");
+            }
+            
             Console.WriteLine($"Targeting directory: {workingDirectory}");
+            
             client = new ForgeClient();
                 
             Display display = new Display();
@@ -37,6 +68,6 @@ namespace MCModDownloader
             {
                 display.processInput();
             }
-       }
+        }
     }
 }
