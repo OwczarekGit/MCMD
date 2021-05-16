@@ -54,7 +54,7 @@ namespace MCModDownloader
 
             if (!Helpers.isDirectoryEmpty(workingDirectory))
             {
-                // TODO check if files are mod files and if so add set environment to work with them.
+                // TODO check if files are mod files and if so set environment to work with them.
                 Console.WriteLine("Directory contains files!");
             }
             
