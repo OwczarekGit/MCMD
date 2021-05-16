@@ -56,11 +56,11 @@ namespace MCModDownloader
                 if (addon != null)
                 {
                     var localMod = new Mod(addon);
-                    localMod.isDownloaded = true;
-                    localMod.isMarked = true;
                     added.listItem.Add(localMod);
                 }
             }
+            
+            added.checkForUpdates();
         }
 
         public void updateSize()

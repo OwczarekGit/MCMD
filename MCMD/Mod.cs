@@ -137,5 +137,13 @@ namespace MCModDownloader
 
             loaderTypeForge = true;
         }
+
+        public void checkForUpdate()
+        {
+            // TODO actually check for mod updates.
+            isDownloaded = true;
+            isMarked = true;
+            hasUpdateAvailable = false;
+        }
     }
 }
