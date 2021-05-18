@@ -261,6 +261,7 @@ namespace MCModDownloader
                     running = false;
                     Console.CursorVisible = true;
                     Console.Clear();
+                    Console.WriteLine("Bye!");
                     System.Environment.Exit(0);
                 }
                     
