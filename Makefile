@@ -14,3 +14,7 @@ clean:
 
 restore:
 	dotnet restore
+
+install-linux: release
+	sudo mv build/mcmd-linux-x64 /bin/mcmd
+
