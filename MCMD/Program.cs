@@ -25,11 +25,11 @@ namespace MCModDownloader
         {
             if (args.Length < 1)
             {
-                Console.WriteLine("You need to specify a working directory! (Please provide FULL path)");
+                Console.WriteLine("You need to specify a working directory!");
                 return;
             }
 
-            workingDirectory = args[0] + "/";
+            workingDirectory = $"{Directory.GetCurrentDirectory()}/{args[0]}/";
 
             if (!Helpers.directoryExists(workingDirectory))
             {
