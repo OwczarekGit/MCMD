@@ -309,7 +309,7 @@ namespace MCModDownloader
             }
 
             if (!exists)
-                panel.listItem.Add(mod);
+                panel.listItem.Insert(0, mod);
         }
 
         private bool containsMod(Mod mod, ConsolePanel panel)
