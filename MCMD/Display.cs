@@ -26,6 +26,8 @@ namespace MCModDownloader
 
         public Display()
         {
+            Console.CursorVisible = false;
+            
             buffer = new ConsolePanel(new Vec2(1,1), new Vec2(1,1));
             added = new ConsolePanel(new Vec2(1,1), new Vec2(1,1));
             getModsFromExistingFiles();
@@ -168,8 +170,8 @@ namespace MCModDownloader
 
         private void searchModeInput()
         {
-            buffer.barText = $"Search ({searchBuffer.Length})> {searchBuffer}";
             searchBuffer = "";
+            buffer.barText = $"Search ({searchBuffer.Length})> {searchBuffer}";
             draw();
             
             while (currentState == AppStates.Search)
