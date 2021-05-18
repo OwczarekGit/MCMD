@@ -20,8 +20,8 @@
   * [ ↓, j ] - Move cursor down.
   * [ Ctrl + Q ] - Close app.
 
-## Usage: ./MCMD "/full/path/to/target/directory"
-##### example: ./MCMD "/home/myuser/.minecraft/mods/"
+## Usage: ./MCMD "relative/path/to/directory"
+##### example: ./MCMD .minecraft/mods
 
 # Planned features:
 - [x] Searching CurseForge for mods and downloading them and, their dependencies with a press of a button.
