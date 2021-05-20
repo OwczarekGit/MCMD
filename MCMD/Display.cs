@@ -48,21 +48,14 @@ namespace MCModDownloader
 
         private void getModsFromExistingFiles()
         {
-            var files = Directory.GetFiles(Program.workingDirectory,"*.jar");
-            Console.WriteLine($"Found {files.Length} existing mods. Working on them...");
+                var fingerprintManager = new FingerprintManager(Program.workingDirectory);
+                var tmpAddons = fingerprintManager.getComputedAddons();
 
-            foreach (var file in files)
-            {
-                Addon addon = Program.client.GetAddonFromFile($"{file}");
-
-                if (addon != null)
+                foreach (var localAddon in tmpAddons)
                 {
-                    var localMod = new Mod(addon);
-                    added.listItem.Add(localMod);
+                    added.listItem.Add(new Mod(localAddon));
                 }
-            }
-            
-            added.checkForUpdates();
+                added.checkForUpdates();
         }
 
         public void updateSize()
