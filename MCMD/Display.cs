@@ -274,7 +274,7 @@ namespace MCModDownloader
                     if (!containsMod(tmp, added)) 
                         exclusiveAdd(tmp, buffer);
                 }
-                else if (Program.modLoader == "fabric" && tmp.loaderSupportFabric)
+                if (Program.modLoader == "fabric" && tmp.loaderSupportFabric)
                 {
                     if (!containsMod(tmp, added)) 
                         exclusiveAdd(tmp, buffer);
