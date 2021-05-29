@@ -15,7 +15,7 @@ namespace MCModDownloader
 {
     class Program
     { 
-        public static readonly String ReleaseVersion = $"200521";
+        public static readonly String ReleaseVersion = $"200530";
         public static ForgeClient client;
         public static String workingDirectory = null;
         public static String mcVersion = "1.16.5";
