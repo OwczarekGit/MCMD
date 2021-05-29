@@ -23,6 +23,8 @@ namespace MCModDownloader
         
         static void Main(string[] args)
         {
+            ArgumentResolver argumentResolver = new ArgumentResolver(args);
+            
             if (args.Length < 1)
             {
                 Console.WriteLine("You need to specify a working directory!");
