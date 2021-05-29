@@ -239,14 +239,8 @@ namespace MCModDownloader
                     String url = focusedPanel.getSelectedURL();
                     
                     if (url != null)
-                    {
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                            Process.Start("explorer", url);
-                        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                            Process.Start("xdg-open", url);
-                        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                            Process.Start("open", url);
-                        
+                    { 
+                        OS.OpenURL(url);
                         draw();
                     }
                 }
