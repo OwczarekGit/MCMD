@@ -89,7 +89,7 @@ namespace MCModDownloader
 
         private void updateFooter()
         {
-            String footerText = $" =[{Program.ReleaseVersion}]=[{Program.mcVersion}/{Program.modLoader}]";
+            String footerText = $" =[MCMD Version: {Program.ReleaseVersion}]=[{Program.mcVersion}/{Program.modLoader}]";
             String tmp = footerText;
             for (int i = 0; i < size.x-footerText.Length-1; i++)
                 tmp += "=";
