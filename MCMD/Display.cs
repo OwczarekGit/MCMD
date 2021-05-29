@@ -269,12 +269,12 @@ namespace MCModDownloader
             {
                 Mod tmp = new Mod(mod);
 
-                if (Program.modLoader == "forge" && tmp.loaderTypeForge)
+                if (Program.modLoader == "forge" && tmp.loaderSupportForge)
                 {
                     if (!containsMod(tmp, added)) 
                         exclusiveAdd(tmp, buffer);
                 }
-                else if (Program.modLoader == "fabric" && !tmp.loaderTypeForge)
+                else if (Program.modLoader == "fabric" && !tmp.loaderSupportForge)
                 {
                     if (!containsMod(tmp, added)) 
                         exclusiveAdd(tmp, buffer);

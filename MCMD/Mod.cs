@@ -18,13 +18,14 @@ namespace MCModDownloader
         public CurseJSON.AddonFile addonFile;
         private bool fileIsReady = false;
         public String displayName = "";
-        public bool loaderTypeForge { private set; get; } = true;
+        public bool loaderSupportForge { private set; get; } = false;
+        public bool loaderSupportFabric { private set; get; } = false;
 
         public Mod(Addon addon)
         {
             this.addon = addon;
             displayName = addon.Name;
-            isForgeMod();
+            getLoaderSupport();
         }
         
         public String getModURL(){ return addon.Website; }
@@ -125,17 +126,17 @@ namespace MCModDownloader
             return newest;
         }
 
-        private void isForgeMod()
+        private void getLoaderSupport()
         {
             CurseJSON.AddonInfo addonInfo = addon;
             foreach (var category in addonInfo.categories)
                 if (category.categoryId == 4780)
                 {
-                    loaderTypeForge = false;
+                    loaderSupportFabric = true;
                     return;
                 }
 
-            loaderTypeForge = true;
+            loaderSupportForge = true;
         }
 
         public void checkForUpdate()
