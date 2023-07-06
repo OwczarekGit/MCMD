@@ -1,3 +1,6 @@
+
+# _This project is NOT under development, check the new version [here](https://github.com/OwczarekGit/MCMD2)._
+
 # The "MineCraft Mod Downloader" (MCMD)
 ## A CLI app for downloading Minecraft mods from curseforge.
 
